@@ -7,7 +7,6 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -19,42 +18,135 @@
   <div id="root"></div>
   <script type="text/babel">
     const { useState } = React;
-    const { User, MessageSquare, FileText, Ticket, Code, Shield, Rocket, Database, BookOpen, RefreshCw, AlertTriangle, CheckCircle, XCircle, ArrowRight, Brain, Zap, GitBranch, Users } = lucideReact;
 
-    // Icon wrapper component with lighter background for visibility
-    const IconWithBg = ({ icon: Icon, size = 16, color = "#fff", bgColor = "rgba(255,255,255,0.15)" }) => (
-      <div style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: size + 12,
-        height: size + 12,
-        borderRadius: 6,
-        backgroundColor: bgColor,
-        marginRight: 6
-      }}>
-        <Icon size={size} color={color} />
-      </div>
-    );
+    // Inline SVG Icons with background squares for visibility
+    const Icons = {
+      User: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      ),
+      MessageSquare: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      ),
+      FileText: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+      ),
+      Ticket: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+          <path d="M13 5v2"/>
+          <path d="M13 17v2"/>
+          <path d="M13 11v2"/>
+        </svg>
+      ),
+      Code: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="16 18 22 12 16 6"/>
+          <polyline points="8 6 2 12 8 18"/>
+        </svg>
+      ),
+      Shield: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      ),
+      Rocket: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+          <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+          <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+          <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+        </svg>
+      ),
+      Database: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"/>
+          <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+        </svg>
+      ),
+      BookOpen: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+      ),
+      RefreshCw: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 2v6h-6"/>
+          <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+          <path d="M3 22v-6h6"/>
+          <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+        </svg>
+      ),
+      Brain: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/>
+          <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/>
+        </svg>
+      ),
+      GitBranch: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="6" y1="3" x2="6" y2="15"/>
+          <circle cx="18" cy="6" r="3"/>
+          <circle cx="6" cy="18" r="3"/>
+          <path d="M18 9a9 9 0 0 1-9 9"/>
+        </svg>
+      ),
+      Zap: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+      ),
+      Users: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      ),
+      CheckCircle: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      ),
+      XCircle: ({ size = 16, color = "#fff" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="15" y1="9" x2="9" y2="15"/>
+          <line x1="9" y1="9" x2="15" y2="15"/>
+        </svg>
+      )
+    };
 
-    // SVG Icon component for use inside SVG elements
-    const SvgIcon = ({ icon: Icon, x, y, size = 20, color = "#fff", bgColor = "rgba(255,255,255,0.2)" }) => {
-      const padding = 8;
-      const bgSize = size + padding * 2;
+    // Icon wrapper with lighter background for visibility
+    const IconWithBg = ({ icon, size = 16, color = "#fff", bgColor = "rgba(255,255,255,0.15)" }) => {
+      const IconComponent = Icons[icon];
       return (
-        <g transform={`translate(${x - bgSize/2}, ${y - bgSize/2})`}>
-          <rect 
-            width={bgSize} 
-            height={bgSize} 
-            rx="6" 
-            fill={bgColor}
-          />
-          <foreignObject x={padding} y={padding} width={size} height={size}>
-            <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Icon size={size} color={color} />
-            </div>
-          </foreignObject>
-        </g>
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: size + 12,
+          height: size + 12,
+          borderRadius: 6,
+          backgroundColor: bgColor,
+          marginRight: 6
+        }}>
+          <IconComponent size={size} color={color} />
+        </div>
       );
     };
 
@@ -78,53 +170,53 @@
         user: '#10b981'
       };
 
-      const AgentNode = ({ name, color, x, y, icon: Icon, description }) => (
-        <g transform={`translate(${x}, ${y})`}>
-          {/* Card background with gradient effect */}
-          <defs>
-            <linearGradient id={`grad-${name}`} x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor={color} stopOpacity="1"/>
-              <stop offset="100%" stopColor={color} stopOpacity="0.7"/>
-            </linearGradient>
-          </defs>
-          <rect
-            x="-70"
-            y="-30"
-            width="140"
-            height="60"
-            rx="10"
-            fill={`url(#grad-${name})`}
-            stroke="rgba(255,255,255,0.1)"
-            strokeWidth="1"
-          />
-          {/* Icon with lighter background */}
-          <rect x="-60" y="-22" width="28" height="28" rx="6" fill="rgba(255,255,255,0.2)" />
-          <foreignObject x="-56" y="-18" width="20" height="20">
-            <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Icon size={16} color="white" />
-            </div>
-          </foreignObject>
-          <text
-            x="10"
-            y="-5"
-            textAnchor="middle"
-            fill="white"
-            fontSize="11"
-            fontWeight="600"
-          >
-            {name}
-          </text>
-          <text
-            x="0"
-            y="15"
-            textAnchor="middle"
-            fill="rgba(255,255,255,0.7)"
-            fontSize="9"
-          >
-            {description}
-          </text>
-        </g>
-      );
+      const AgentNode = ({ name, color, x, y, icon, description }) => {
+        const IconComponent = Icons[icon];
+        return (
+          <g transform={`translate(${x}, ${y})`}>
+            <defs>
+              <linearGradient id={`grad-${name.replace(/\s/g, '')}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor={color} stopOpacity="1"/>
+                <stop offset="100%" stopColor={color} stopOpacity="0.7"/>
+              </linearGradient>
+            </defs>
+            <rect
+              x="-70"
+              y="-30"
+              width="140"
+              height="60"
+              rx="10"
+              fill={`url(#grad-${name.replace(/\s/g, '')})`}
+              stroke="rgba(255,255,255,0.1)"
+              strokeWidth="1"
+            />
+            {/* Icon background for visibility */}
+            <rect x="-60" y="-20" width="24" height="24" rx="5" fill="rgba(255,255,255,0.25)" />
+            <g transform="translate(-56, -16)">
+              <IconComponent size={16} color="white" />
+            </g>
+            <text
+              x="5"
+              y="-5"
+              textAnchor="middle"
+              fill="white"
+              fontSize="11"
+              fontWeight="600"
+            >
+              {name}
+            </text>
+            <text
+              x="0"
+              y="15"
+              textAnchor="middle"
+              fill="rgba(255,255,255,0.7)"
+              fontSize="9"
+            >
+              {description}
+            </text>
+          </g>
+        );
+      };
 
       const Arrow = ({ x1, y1, x2, y2, color = "#64748b", label, labelOffset = 0, curved = false, dashed = false }) => {
         const midX = (x1 + x2) / 2;
@@ -179,7 +271,7 @@
         <div style={{ background: colors.bg, minHeight: '100vh', padding: '24px' }}>
           <div className="max-w-6xl mx-auto">
             <h1 className="text-2xl font-bold text-white mb-2 text-center flex items-center justify-center gap-3">
-              <IconWithBg icon={Zap} size={20} color={colors.primary} bgColor="rgba(0,212,255,0.2)" />
+              <IconWithBg icon="Zap" size={20} color={colors.primary} bgColor="rgba(0,212,255,0.2)" />
               Agent Pipeline Architecture
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.5)' }} className="text-center mb-6 text-sm">
@@ -189,10 +281,10 @@
             {/* Tab Navigation */}
             <div className="flex justify-center gap-2 mb-6">
               {[
-                { id: 'main', icon: GitBranch, label: 'Main Pipeline' },
-                { id: 'failure', icon: RefreshCw, label: 'Failure Loop' },
-                { id: 'learning', icon: Brain, label: 'Learning System' }
-              ].map(({ id, icon: Icon, label }) => (
+                { id: 'main', icon: 'GitBranch', label: 'Main Pipeline' },
+                { id: 'failure', icon: 'RefreshCw', label: 'Failure Loop' },
+                { id: 'learning', icon: 'Brain', label: 'Learning System' }
+              ].map(({ id, icon, label }) => (
                 <button
                   key={id}
                   onClick={() => setActiveSection(id)}
@@ -203,17 +295,12 @@
                     border: `1px solid ${activeSection === id ? colors.primary : colors.border}`
                   }}
                 >
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: 24,
-                    height: 24,
-                    borderRadius: 4,
-                    backgroundColor: activeSection === id ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.1)'
-                  }}>
-                    <Icon size={14} />
-                  </div>
+                  <IconWithBg 
+                    icon={icon} 
+                    size={14} 
+                    color={activeSection === id ? '#000' : 'rgba(255,255,255,0.7)'} 
+                    bgColor={activeSection === id ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.1)'} 
+                  />
                   {label}
                 </button>
               ))}
@@ -223,7 +310,6 @@
             {activeSection === 'main' && (
               <div style={{ background: colors.cardBg, border: `1px solid ${colors.border}` }} className="rounded-xl p-4 overflow-x-auto">
                 <svg width="1100" height="480" viewBox="0 0 1100 480">
-                  {/* Background Grid */}
                   <defs>
                     <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
                       <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="0.5"/>
@@ -234,46 +320,40 @@
                   {/* User Input */}
                   <g transform="translate(80, 100)">
                     <circle r="38" fill={colors.user} stroke="rgba(255,255,255,0.2)" strokeWidth="2"/>
-                    {/* Icon background for visibility */}
-                    <rect x="-14" y="-22" width="28" height="28" rx="6" fill="rgba(255,255,255,0.25)" />
-                    <foreignObject x="-10" y="-18" width="20" height="20">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <User size={16} color="white" />
-                      </div>
-                    </foreignObject>
+                    <rect x="-12" y="-20" width="24" height="24" rx="5" fill="rgba(255,255,255,0.25)" />
+                    <g transform="translate(-8, -16)">
+                      <Icons.User size={16} color="white" />
+                    </g>
                     <text y="18" textAnchor="middle" fill="white" fontSize="10" fontWeight="600">USER</text>
                   </g>
                   
-                  {/* Main Agent Flow - Horizontal */}
+                  {/* Main Agent Flow */}
                   <Arrow x1="118" y1="100" x2="160" y2="100" color={colors.primary} />
-                  <AgentNode name="Clarifying" color={colors.clarifying} x={230} y={100} icon={MessageSquare} description="Gather requirements" />
+                  <AgentNode name="Clarifying" color={colors.clarifying} x={230} y={100} icon="MessageSquare" description="Gather requirements" />
                   
                   <Arrow x1="300" y1="100" x2="340" y2="100" color={colors.primary} />
-                  <AgentNode name="Spec" color={colors.spec} x={410} y={100} icon={FileText} description="Write specification" />
+                  <AgentNode name="Spec" color={colors.spec} x={410} y={100} icon="FileText" description="Write specification" />
                   
                   <Arrow x1="480" y1="100" x2="520" y2="100" color={colors.primary} />
-                  <AgentNode name="Ticket" color={colors.ticket} x={590} y={100} icon={Ticket} description="Create work items" />
+                  <AgentNode name="Ticket" color={colors.ticket} x={590} y={100} icon="Ticket" description="Create work items" />
                   
                   <Arrow x1="660" y1="100" x2="700" y2="100" color={colors.primary} />
-                  <AgentNode name="Coding" color={colors.coding} x={770} y={100} icon={Code} description="Implement code" />
+                  <AgentNode name="Coding" color={colors.coding} x={770} y={100} icon="Code" description="Implement code" />
                   
                   <Arrow x1="840" y1="100" x2="880" y2="100" color={colors.primary} />
-                  <AgentNode name="Sentinel" color={colors.sentinel} x={950} y={100} icon={Shield} description="Review & validate" />
+                  <AgentNode name="Sentinel" color={colors.sentinel} x={950} y={100} icon="Shield" description="Review & validate" />
                   
                   {/* Sentinel branching */}
                   <Arrow x1="950" y1="130" x2="950" y2="180" color={colors.coding} label="✓ Pass" labelOffset={35} />
-                  <AgentNode name="Deploy" color={colors.deploy} x={950} y={230} icon={Rocket} description="Ship to production" />
+                  <AgentNode name="Deploy" color={colors.deploy} x={950} y={230} icon="Rocket" description="Ship to production" />
                   
                   {/* RAG Integration */}
                   <g transform="translate(350, 280)">
                     <rect width="200" height="150" rx="12" fill="#1a1625" stroke={colors.rag} strokeWidth="2" />
-                    {/* Header with icon bg */}
-                    <rect x="70" y="8" width="28" height="28" rx="6" fill="rgba(139,92,246,0.3)" />
-                    <foreignObject x="74" y="12" width="20" height="20">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Database size={16} color={colors.rag} />
-                      </div>
-                    </foreignObject>
+                    <rect x="80" y="12" width="24" height="24" rx="5" fill="rgba(139,92,246,0.3)" />
+                    <g transform="translate(84, 16)">
+                      <Icons.Database size={16} color={colors.rag} />
+                    </g>
                     <text x="100" y="55" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">RAG Knowledge</text>
                     <text x="100" y="72" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="9">Vector Embeddings</text>
                     <line x1="15" y1="82" x2="185" y2="82" stroke="rgba(139,92,246,0.3)" />
@@ -287,13 +367,10 @@
                   {/* Playbook */}
                   <g transform="translate(600, 280)">
                     <rect width="200" height="150" rx="12" fill="#1a1510" stroke={colors.playbook} strokeWidth="2" />
-                    {/* Header with icon bg */}
-                    <rect x="70" y="8" width="28" height="28" rx="6" fill="rgba(249,115,22,0.3)" />
-                    <foreignObject x="74" y="12" width="20" height="20">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <BookOpen size={16} color={colors.playbook} />
-                      </div>
-                    </foreignObject>
+                    <rect x="80" y="12" width="24" height="24" rx="5" fill="rgba(249,115,22,0.3)" />
+                    <g transform="translate(84, 16)">
+                      <Icons.BookOpen size={16} color={colors.playbook} />
+                    </g>
                     <text x="100" y="55" textAnchor="middle" fill="white" fontSize="13" fontWeight="600">Playbook</text>
                     <text x="100" y="72" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="9">Static Rules</text>
                     <line x1="15" y1="82" x2="185" y2="82" stroke="rgba(249,115,22,0.3)" />
@@ -308,7 +385,6 @@
                   <path d="M 700 280 L 700 200 L 770 130" stroke={colors.playbook} strokeWidth="1.5" strokeDasharray="4,4" fill="none" />
                   <path d="M 750 280 L 850 180 L 950 130" stroke={colors.playbook} strokeWidth="1.5" strokeDasharray="4,4" fill="none" />
                   
-                  {/* Labels */}
                   <text x="430" y="195" fill={colors.rag} fontSize="8" fontWeight="500">Query context</text>
                   <text x="720" y="195" fill={colors.playbook} fontSize="8" fontWeight="500">Inject rules</text>
                 </svg>
@@ -326,20 +402,15 @@
                   </defs>
                   <rect width="100%" height="100%" fill="url(#grid2)" />
                   
-                  {/* Coding Agent */}
-                  <AgentNode name="Coding" color={colors.coding} x={150} y={100} icon={Code} description="Implement code" />
-                  
-                  {/* Arrow to Sentinel */}
+                  <AgentNode name="Coding" color={colors.coding} x={150} y={100} icon="Code" description="Implement code" />
                   <Arrow x1="220" y1="100" x2="320" y2="100" color={colors.primary} />
-                  
-                  {/* Sentinel */}
-                  <AgentNode name="Sentinel" color={colors.sentinel} x={400} y={100} icon={Shield} description="Review & validate" />
+                  <AgentNode name="Sentinel" color={colors.sentinel} x={400} y={100} icon="Shield" description="Review & validate" />
                   
                   {/* Pass path */}
                   <Arrow x1="470" y1="100" x2="570" y2="100" color={colors.coding} label="✓ Pass" labelOffset={0} />
-                  <AgentNode name="Deploy" color={colors.deploy} x={650} y={100} icon={Rocket} description="Ship to production" />
+                  <AgentNode name="Deploy" color={colors.deploy} x={650} y={100} icon="Rocket" description="Ship to production" />
                   
-                  {/* Fail path - retry loop */}
+                  {/* Fail path */}
                   <path d="M 400 130 L 400 220 L 250 220 L 250 160 L 150 130" stroke={colors.deploy} strokeWidth="2" fill="none" markerEnd="url(#fail-arrow)" />
                   <defs>
                     <marker id="fail-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
@@ -349,28 +420,22 @@
                   
                   {/* Retry counter */}
                   <g transform="translate(280, 200)">
-                    <rect x="-40" y="-15" width="80" height="30" rx="6" fill="rgba(239,68,68,0.2)" stroke={colors.deploy} strokeWidth="1" />
-                    {/* Icon bg */}
-                    <rect x="-35" y="-10" width="20" height="20" rx="4" fill="rgba(255,255,255,0.15)" />
-                    <foreignObject x="-33" y="-8" width="16" height="16">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <RefreshCw size={12} color={colors.deploy} />
-                      </div>
-                    </foreignObject>
-                    <text x="10" y="5" textAnchor="middle" fill={colors.deploy} fontSize="10" fontWeight="600">Retry ≤3</text>
+                    <rect x="-50" y="-18" width="100" height="36" rx="8" fill="rgba(239,68,68,0.2)" stroke={colors.deploy} strokeWidth="1" />
+                    <rect x="-42" y="-10" width="20" height="20" rx="4" fill="rgba(255,255,255,0.15)" />
+                    <g transform="translate(-38, -6)">
+                      <Icons.RefreshCw size={12} color={colors.deploy} />
+                    </g>
+                    <text x="15" y="5" textAnchor="middle" fill={colors.deploy} fontSize="11" fontWeight="600">Retry ≤3</text>
                   </g>
                   
                   {/* HITL Escalation */}
                   <path d="M 400 130 L 400 320" stroke="#fbbf24" strokeWidth="2" strokeDasharray="5,5" fill="none" />
                   <g transform="translate(400, 350)">
-                    <rect x="-80" y="-25" width="160" height="50" rx="10" fill="rgba(251,191,36,0.2)" stroke="#fbbf24" strokeWidth="2" />
-                    {/* Icon bg */}
-                    <rect x="-70" y="-15" width="28" height="28" rx="6" fill="rgba(255,255,255,0.15)" />
-                    <foreignObject x="-66" y="-11" width="20" height="20">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Users size={16} color="#fbbf24" />
-                      </div>
-                    </foreignObject>
+                    <rect x="-90" y="-25" width="180" height="50" rx="10" fill="rgba(251,191,36,0.2)" stroke="#fbbf24" strokeWidth="2" />
+                    <rect x="-78" y="-13" width="24" height="24" rx="5" fill="rgba(255,255,255,0.15)" />
+                    <g transform="translate(-74, -9)">
+                      <Icons.Users size={16} color="#fbbf24" />
+                    </g>
                     <text x="10" y="-2" textAnchor="middle" fill="#fbbf24" fontSize="12" fontWeight="600">HITL Escalation</text>
                     <text x="0" y="14" textAnchor="middle" fill="rgba(251,191,36,0.7)" fontSize="9">After 3 failures</text>
                   </g>
@@ -385,7 +450,6 @@
                     <text x="-85" y="35" fill="rgba(255,255,255,0.6)" fontSize="9">• Poor code quality</text>
                   </g>
                   
-                  {/* Arrow from Sentinel to rejection box */}
                   <Arrow x1="470" y1="115" x2="510" y2="180" color="rgba(239,68,68,0.5)" dashed={true} />
                 </svg>
               </div>
@@ -402,20 +466,16 @@
                   </defs>
                   <rect width="100%" height="100%" fill="url(#grid3)" />
                   
-                  {/* Deploy Agent */}
-                  <AgentNode name="Deploy" color={colors.deploy} x={150} y={100} icon={Rocket} description="Merges PR" />
+                  <AgentNode name="Deploy" color={colors.deploy} x={150} y={100} icon="Rocket" description="Merges PR" />
                   
                   {/* Good code path */}
                   <Arrow x1="220" y1="85" x2="300" y2="50" color={colors.coding} />
                   <g transform="translate(380, 50)">
                     <rect x="-70" y="-25" width="140" height="50" rx="8" fill="rgba(34,197,94,0.2)" stroke={colors.coding} strokeWidth="1" />
-                    {/* Icon bg */}
-                    <rect x="-60" y="-15" width="26" height="26" rx="5" fill="rgba(255,255,255,0.15)" />
-                    <foreignObject x="-56" y="-11" width="18" height="18">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <CheckCircle size={14} color={colors.coding} />
-                      </div>
-                    </foreignObject>
+                    <rect x="-58" y="-13" width="22" height="22" rx="4" fill="rgba(255,255,255,0.15)" />
+                    <g transform="translate(-54, -9)">
+                      <Icons.CheckCircle size={14} color={colors.coding} />
+                    </g>
                     <text x="10" y="0" textAnchor="middle" fill={colors.coding} fontSize="11" fontWeight="600">Good Code</text>
                     <text x="0" y="15" textAnchor="middle" fill="rgba(34,197,94,0.7)" fontSize="8">Patterns indexed</text>
                   </g>
@@ -424,13 +484,10 @@
                   <Arrow x1="220" y1="115" x2="300" y2="150" color={colors.deploy} />
                   <g transform="translate(380, 150)">
                     <rect x="-70" y="-25" width="140" height="50" rx="8" fill="rgba(239,68,68,0.2)" stroke={colors.deploy} strokeWidth="1" />
-                    {/* Icon bg */}
-                    <rect x="-60" y="-15" width="26" height="26" rx="5" fill="rgba(255,255,255,0.15)" />
-                    <foreignObject x="-56" y="-11" width="18" height="18">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <XCircle size={14} color={colors.deploy} />
-                      </div>
-                    </foreignObject>
+                    <rect x="-58" y="-13" width="22" height="22" rx="4" fill="rgba(255,255,255,0.15)" />
+                    <g transform="translate(-54, -9)">
+                      <Icons.XCircle size={14} color={colors.deploy} />
+                    </g>
                     <text x="10" y="0" textAnchor="middle" fill={colors.deploy} fontSize="11" fontWeight="600">Bad Code</text>
                     <text x="0" y="15" textAnchor="middle" fill="rgba(239,68,68,0.7)" fontSize="8">Anti-patterns indexed</text>
                   </g>
@@ -439,27 +496,24 @@
                   <Arrow x1="450" y1="50" x2="550" y2="100" color={colors.coding} />
                   <Arrow x1="450" y1="150" x2="550" y2="120" color={colors.deploy} />
                   
-                  {/* RAG Knowledge Base - Central */}
+                  {/* RAG Knowledge Base */}
                   <g transform="translate(550, 70)">
                     <rect width="250" height="200" rx="12" fill="#1a1625" stroke={colors.rag} strokeWidth="2" />
-                    {/* Header with icon bg */}
-                    <rect x="95" y="12" width="32" height="32" rx="6" fill="rgba(139,92,246,0.3)" />
-                    <foreignObject x="99" y="16" width="24" height="24">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Database size={18} color={colors.rag} />
-                      </div>
-                    </foreignObject>
-                    <text x="125" y="65" textAnchor="middle" fill="white" fontSize="14" fontWeight="700">RAG Knowledge</text>
-                    <text x="125" y="82" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="10">Continuously Updated</text>
-                    <line x1="20" y1="95" x2="230" y2="95" stroke="rgba(139,92,246,0.3)" />
+                    <rect x="105" y="12" width="28" height="28" rx="5" fill="rgba(139,92,246,0.3)" />
+                    <g transform="translate(109, 16)">
+                      <Icons.Database size={20} color={colors.rag} />
+                    </g>
+                    <text x="125" y="60" textAnchor="middle" fill="white" fontSize="14" fontWeight="700">RAG Knowledge</text>
+                    <text x="125" y="77" textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="10">Continuously Updated</text>
+                    <line x1="20" y1="90" x2="230" y2="90" stroke="rgba(139,92,246,0.3)" />
                     
-                    <text x="30" y="115" fill={colors.coding} fontSize="10" fontWeight="500">✓ Good Patterns:</text>
-                    <text x="40" y="130" fill="rgba(255,255,255,0.6)" fontSize="9">Working implementations</text>
-                    <text x="40" y="145" fill="rgba(255,255,255,0.6)" fontSize="9">Successful architectures</text>
+                    <text x="30" y="110" fill={colors.coding} fontSize="10" fontWeight="500">✓ Good Patterns:</text>
+                    <text x="40" y="125" fill="rgba(255,255,255,0.6)" fontSize="9">Working implementations</text>
+                    <text x="40" y="140" fill="rgba(255,255,255,0.6)" fontSize="9">Successful architectures</text>
                     
-                    <text x="30" y="165" fill={colors.deploy} fontSize="10" fontWeight="500">✗ Anti-Patterns:</text>
-                    <text x="40" y="180" fill="rgba(255,255,255,0.6)" fontSize="9">Failed approaches</text>
-                    <text x="40" y="195" fill="rgba(255,255,255,0.6)" fontSize="9">Security vulnerabilities</text>
+                    <text x="30" y="160" fill={colors.deploy} fontSize="10" fontWeight="500">✗ Anti-Patterns:</text>
+                    <text x="40" y="175" fill="rgba(255,255,255,0.6)" fontSize="9">Failed approaches</text>
+                    <text x="40" y="190" fill="rgba(255,255,255,0.6)" fontSize="9">Security vulnerabilities</text>
                   </g>
                   
                   {/* Arrow to agents */}
@@ -468,58 +522,44 @@
                   {/* Agents receiving knowledge */}
                   <g transform="translate(900, 100)">
                     <rect x="-25" y="-20" width="50" height="40" rx="8" fill={colors.clarifying} />
-                    <rect x="-18" y="-13" width="20" height="20" rx="4" fill="rgba(255,255,255,0.2)" />
-                    <foreignObject x="-16" y="-11" width="16" height="16">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <MessageSquare size={12} color="white" />
-                      </div>
-                    </foreignObject>
+                    <rect x="-16" y="-11" width="18" height="18" rx="3" fill="rgba(255,255,255,0.2)" />
+                    <g transform="translate(-13, -8)">
+                      <Icons.MessageSquare size={12} color="white" />
+                    </g>
                   </g>
                   <g transform="translate(900, 170)">
                     <rect x="-25" y="-20" width="50" height="40" rx="8" fill={colors.coding} />
-                    <rect x="-18" y="-13" width="20" height="20" rx="4" fill="rgba(255,255,255,0.2)" />
-                    <foreignObject x="-16" y="-11" width="16" height="16">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Code size={12} color="white" />
-                      </div>
-                    </foreignObject>
+                    <rect x="-16" y="-11" width="18" height="18" rx="3" fill="rgba(255,255,255,0.2)" />
+                    <g transform="translate(-13, -8)">
+                      <Icons.Code size={12} color="white" />
+                    </g>
                   </g>
                   <g transform="translate(900, 240)">
                     <rect x="-25" y="-20" width="50" height="40" rx="8" fill={colors.sentinel} />
-                    <rect x="-18" y="-13" width="20" height="20" rx="4" fill="rgba(255,255,255,0.2)" />
-                    <foreignObject x="-16" y="-11" width="16" height="16">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Shield size={12} color="white" />
-                      </div>
-                    </foreignObject>
+                    <rect x="-16" y="-11" width="18" height="18" rx="3" fill="rgba(255,255,255,0.2)" />
+                    <g transform="translate(-13, -8)">
+                      <Icons.Shield size={12} color="white" />
+                    </g>
                   </g>
                   
                   {/* Feedback loop */}
                   <g transform="translate(100, 350)">
                     <rect width="800" height="80" rx="10" fill="rgba(0,212,255,0.1)" stroke={colors.primary} strokeWidth="1" />
-                    {/* Icon bg */}
-                    <rect x="350" y="10" width="32" height="32" rx="6" fill="rgba(0,212,255,0.2)" />
-                    <foreignObject x="354" y="14" width="24" height="24">
-                      <div xmlns="http://www.w3.org/1999/xhtml" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <RefreshCw size={18} color={colors.primary} />
-                      </div>
-                    </foreignObject>
-                    <text x="400" y="60" textAnchor="middle" fill={colors.primary} fontSize="12" fontWeight="600">
+                    <rect x="362" y="12" width="28" height="28" rx="5" fill="rgba(0,212,255,0.2)" />
+                    <g transform="translate(366, 16)">
+                      <Icons.RefreshCw size={20} color={colors.primary} />
+                    </g>
+                    <text x="400" y="58" textAnchor="middle" fill={colors.primary} fontSize="12" fontWeight="600">
                       Continuous Learning Cycle
                     </text>
-                    <text x="400" y="75" textAnchor="middle" fill="rgba(0,212,255,0.7)" fontSize="10">
+                    <text x="400" y="73" textAnchor="middle" fill="rgba(0,212,255,0.7)" fontSize="10">
                       Every deployment makes the system smarter — knowledge compounds automatically
                     </text>
                   </g>
                   
-                  {/* Loop arrow */}
+                  {/* Loop arrows */}
                   <path d="M 150 130 L 150 350" stroke={colors.primary} strokeWidth="2" strokeDasharray="5,5" fill="none" />
-                  <path d="M 870 240 L 870 350 L 850 350" stroke={colors.primary} strokeWidth="2" strokeDasharray="5,5" fill="none" markerEnd="url(#loop-arrow)" />
-                  <defs>
-                    <marker id="loop-arrow" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                      <polygon points="10 0, 0 3.5, 10 7" fill={colors.primary} />
-                    </marker>
-                  </defs>
+                  <path d="M 870 240 L 870 350 L 850 350" stroke={colors.primary} strokeWidth="2" strokeDasharray="5,5" fill="none" />
                 </svg>
               </div>
             )}
@@ -528,7 +568,7 @@
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
               <div style={{ background: colors.cardBg, border: `1px solid ${colors.border}` }} className="rounded-lg p-4">
                 <h3 className="text-white font-bold mb-2 flex items-center gap-2">
-                  <IconWithBg icon={GitBranch} size={14} color={colors.primary} bgColor="rgba(0,212,255,0.2)" />
+                  <IconWithBg icon="GitBranch" size={14} color={colors.primary} bgColor="rgba(0,212,255,0.2)" />
                   Pipeline + Knowledge
                 </h3>
                 <p style={{ color: 'rgba(255,255,255,0.5)' }} className="text-sm">
@@ -538,7 +578,7 @@
               </div>
               <div style={{ background: colors.cardBg, border: `1px solid ${colors.border}` }} className="rounded-lg p-4">
                 <h3 className="text-white font-bold mb-2 flex items-center gap-2">
-                  <IconWithBg icon={RefreshCw} size={14} color={colors.deploy} bgColor="rgba(239,68,68,0.2)" />
+                  <IconWithBg icon="RefreshCw" size={14} color={colors.deploy} bgColor="rgba(239,68,68,0.2)" />
                   Failure Recovery
                 </h3>
                 <p style={{ color: 'rgba(255,255,255,0.5)' }} className="text-sm">
@@ -548,7 +588,7 @@
               </div>
               <div style={{ background: colors.cardBg, border: `1px solid ${colors.border}` }} className="rounded-lg p-4">
                 <h3 className="text-white font-bold mb-2 flex items-center gap-2">
-                  <IconWithBg icon={Brain} size={14} color={colors.rag} bgColor="rgba(139,92,246,0.2)" />
+                  <IconWithBg icon="Brain" size={14} color={colors.rag} bgColor="rgba(139,92,246,0.2)" />
                   RAG vs Playbook
                 </h3>
                 <p style={{ color: 'rgba(255,255,255,0.5)' }} className="text-sm">
