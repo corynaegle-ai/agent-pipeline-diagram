@@ -263,7 +263,7 @@
           <g transform="translate(-31, -11)">
             <Icons.UserCheck size={14} color={colors.humanGate} />
           </g>
-          <text x="15" y="-2" textAnchor="middle" fill={colors.humanGate} fontSize="10" fontWeight="600">HUMAN</text>
+          <text x="15" y="-2" textAnchor="middle" fill={colors.humanGate} fontSize="10" fontWeight="600">USER</text>
           <text x="0" y="13" textAnchor="middle" fill="rgba(251,191,36,0.8)" fontSize="8">Approve Spec</text>
         </g>
       );
@@ -354,13 +354,13 @@
                   <AgentNode name="Deploy" color={colors.deploy} x={1020} y={225} icon="Rocket" description="Ship to production" />
                   
                   {/* RAG Reindex Trigger - NEW */}
-                  <path d="M 1020 255 L 1020 310 L 550 310 L 550 280" stroke={colors.rag} strokeWidth="2" fill="none" markerEnd="url(#rag-reindex-arrow)" />
+                  <path d="M 1020 255 L 1020 310 L 450 310 L 450 330" stroke={colors.rag} strokeWidth="2" fill="none" markerEnd="url(#rag-reindex-arrow)" />
                   <defs>
                     <marker id="rag-reindex-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
                       <polygon points="0 0, 10 3.5, 0 7" fill={colors.rag} />
                     </marker>
                   </defs>
-                  <text x="785" y="300" fill={colors.rag} fontSize="9" fontWeight="600">🔄 Trigger Reindex</text>
+                  <text x="735" y="300" fill={colors.rag} fontSize="9" fontWeight="600">🔄 Trigger Reindex</text>
                   
                   {/* RAG Integration */}
                   <g transform="translate(350, 330)">
@@ -632,10 +632,10 @@
               <div style={{ background: colors.cardBg, border: `1px solid ${colors.border}` }} className="rounded-lg p-4">
                 <h3 className="text-white font-bold mb-2 flex items-center gap-2">
                   <IconWithBg icon="UserCheck" size={14} color={colors.humanGate} bgColor="rgba(251,191,36,0.2)" />
-                  Human Gate
+                  User Gate
                 </h3>
                 <p style={{ color: 'rgba(255,255,255,0.5)' }} className="text-sm">
-                  Spec requires <span style={{ color: colors.humanGate }}>human approval</span> before 
+                  Spec requires <span style={{ color: colors.humanGate }}>user approval</span> before 
                   tickets are generated. Quality checkpoint.
                 </p>
               </div>
